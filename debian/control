@@ -1,0 +1,16 @@
+Source: cowhelper
+Section: devel
+Priority: optional
+Maintainer: Travis Cross <tc@traviscross.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+
+Package: cowhelper
+Architecture: all
+Depends: ${misc:Depends}, git-dpkg, bash, cowbuilder, devscripts, dpkg-dev, git
+Description: Helper to build packages from git with cowbuilder
+ This packages contains utilities for setting up cowbuilder images and
+ using those images to build debian packages.
+ .
+ These tools handle building a package for multiple Debian releases
+ simultaneously and building seamlessly from git repositories.
