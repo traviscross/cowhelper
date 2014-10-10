@@ -1,3 +1,9 @@
+cowhelper (0.3) unstable; urgency=low
+
+  * Add support for a quilted package style.
+
+ -- Travis Cross <tc@traviscross.com>  Fri, 10 Oct 2014 20:44:39 +0000
+
 cowhelper (0.2) unstable; urgency=low
 
   * Initial release.
