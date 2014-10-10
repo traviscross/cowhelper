@@ -37,6 +37,10 @@ native_p () {
   return 1
 }
 
+quilted_p () {
+  test -x debian/archive.sh && test -x debian/bootstrap.sh
+}
+
 maintainer () {
   cat debian/control \
     | grep -m1 ^Maintainer: \
@@ -82,6 +86,8 @@ cow_build () {
   if test -n "$upstream"; then
     make_archive
     make_patches
+  elif test -x debian/archive.sh; then
+    ./debian/archive.sh
   fi
   for distro in $distros; do
     local suite="$(suite_from $distro)" indep_build=true
@@ -92,6 +98,7 @@ cow_build () {
         --force-distribution -D "$suite" \
         "NMU: Port to ${distro}."
     fi
+    test ! -x debian/bootstrap.sh || ./debian/bootstrap.sh
     dpkg-source -i.* -Zxz -z9 -b .
     dpkg-genchanges -S -sa > "$src_changes"
     git clean -fdx && git reset --hard HEAD
@@ -129,8 +136,8 @@ while getopts "a:c:hu:" o; do
 done
 shift $(($OPTIND-1))
 
-if test -z "$upstream" && ! native_p; then
-  printf "Error: must specify upstream for non-native package\n\n">&2
+if test -z "$upstream" && ! native_p && ! quilted_p; then
+  printf "Error: must specify upstream\n\n">&2
   usage
   exit 1
 fi
